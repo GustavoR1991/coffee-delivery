@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from 'react-dom/client'
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { Cart } from "./pages/Cart";
@@ -11,7 +11,7 @@ import { App } from "./App";
 const router = createBrowserRouter([
   {
     // Rota principal da aplicação
-    path: '/',
+    path: "/",
 
     // Componente base que será carregado para essa rota (geralmente contém o layout e <Outlet />)
     element: <App />,
@@ -20,30 +20,28 @@ const router = createBrowserRouter([
     children: [
       {
         // Quando o caminho for exatamente "/", carrega o componente Home
-        path: '/',
+        path: "/",
         element: <Home />,
       },
       {
         // Quando o caminho for "/cart", carrega o componente Cart
-        path: '/cart',
+        path: "/cart",
         element: <Cart />,
       },
       {
         // Rota com parâmetro dinâmico (ex: /order/123/success)
-        path: '/order/:orderId/success',
-        element: <Success />
-      }
-    ]
-  }
-])
+        path: "/order/:orderId/success",
+        element: <Success />,
+      },
+    ],
+  },
+]);
 
 // Encontra a div com id "root" no HTML (geralmente em index.html) e cria a raiz React
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   // Habilita verificações adicionais de boas práticas em desenvolvimento
   <React.StrictMode>
-
     {/* Usa o RouterProvider para ativar o roteamento com as rotas configuradas acima */}
     <RouterProvider router={router} />
-
   </React.StrictMode>
-)
+);
