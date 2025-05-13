@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import type { NavigateFunction } from "react-router-dom";
 import type { Item } from "./reducer";
 import type { OrderInfo } from "../../pages/Cart";

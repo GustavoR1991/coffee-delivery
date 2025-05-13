@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { mixins } from "../../../styles/mixins";
 
 export const Box = styled.div`
@@ -13,6 +14,7 @@ export const Container = styled.label`
   justify-content: space-between;
   border-radius: 6px;
   border: 1px solid ${({ theme }) => theme.colors["base-button"]};
+  border-radius: 6px;
 
   background-color: ${({ theme }) => theme.colors["base-input"]};
 
@@ -20,6 +22,10 @@ export const Container = styled.label`
 
   &[data-state="focused"] {
     border-color: ${({ theme }) => theme.colors["yellow-dark"]};
+  }
+
+  &[data-state="blurred"] {
+    border-color: ${({ theme }) => theme.colors["base-button"]};
   }
 
   input {
@@ -38,13 +44,13 @@ export const Container = styled.label`
   span {
     color: ${({ theme }) => theme.colors["base-label"]};
     padding-right: 12px;
-    ${mixins.fonts.textS}
+    ${mixins.fonts.textS};
     font-style: italic;
   }
 `;
 
 export const ErrorMessage = styled.p`
-  ${mixins.fonts.textXS}
+  ${mixins.fonts.textXS};
   font-weight: 400;
   color: red;
 `;
