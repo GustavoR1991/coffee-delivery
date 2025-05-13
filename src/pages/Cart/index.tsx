@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment } from "react";
 import { z } from "zod";
 import { useCart } from "../../hooks/useCart";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,12 +26,11 @@ import {
   MapPin,
   Money,
   Trash,
-} from '@phosphor-icons/react'
+} from "@phosphor-icons/react";
 import { TextInput } from "../../components/Form/TextInput";
 import { Radio } from "../../components/Form/Radio";
 import { QuantityInput } from "../../components/Form/QuantityFormInput";
-import { coffees } from '../../../data.json'
-
+import { coffees } from "../../../data.json";
 
 type FormInputs = {
   cep: number;
@@ -59,7 +58,7 @@ const newOrder = z.object({
 
 export type OrderInfo = z.infer<typeof newOrder>;
 
-const shippingPrice = 3.5
+const shippingPrice = 3.5;
 
 export function Cart() {
   const {
@@ -80,19 +79,19 @@ export function Cart() {
   });
 
   const coffeesInCart = cart.map((item) => {
-    const coffeeInfo = coffees.find((coffee) => coffee.id === item.id)
+    const coffeeInfo = coffees.find((coffee) => coffee.id === item.id);
     if (!coffeeInfo) {
-      throw new Error('Invalid coffee.')
+      throw new Error("Invalid coffee.");
     }
     return {
       ...coffeeInfo,
       quantity: item.quantity,
-    }
-  })
+    };
+  });
 
   const totalItemsPrice = coffeesInCart.reduce((previousValue, currentItem) => {
-    return (previousValue += currentItem.price * currentItem.quantity)
-  }, 0)
+    return (previousValue += currentItem.price * currentItem.quantity);
+  }, 0);
 
   const selectedPaymentMethod = watch("paymentMethod");
 
@@ -119,27 +118,31 @@ export function Cart() {
     <Container>
       <InfoContainer>
         <h2>Complete seu pedido</h2>
+
         <form id="order" onSubmit={handleSubmit(handleOrderCheckout)}>
           <AddressContainer>
             <AddressHeading>
               <MapPin size={22} />
-              <span> Endereço de Entrega</span>
-              <p>Informe o endereço onde deseja receber o seu pedido</p>
+
+              <div>
+                <span>Endereço de Entrega</span>
+
+                <p>Informe o endereço onde deseja receber o seu pedido</p>
+              </div>
             </AddressHeading>
+
             <AddressForm>
               <TextInput
                 placeholder="CEP"
                 type="number"
-                containerProps={{
-                  style: { gridArea: "cep" },
-                }}
+                containerProps={{ style: { gridArea: "cep" } }}
                 error={errors.cep}
                 {...register("cep", { valueAsNumber: true })}
               />
 
               <TextInput
                 placeholder="Rua"
-                containerProps={{ style: { gridArea: "stret" } }}
+                containerProps={{ style: { gridArea: "street" } }}
                 error={errors.street}
                 {...register("street")}
               />
@@ -150,26 +153,32 @@ export function Cart() {
                 error={errors.number}
                 {...register("number")}
               />
+
               <TextInput
                 placeholder="Complemento"
+                optional
                 containerProps={{ style: { gridArea: "fullAddress" } }}
                 error={errors.fullAddress}
                 {...register("fullAddress")}
               />
+
               <TextInput
                 placeholder="Bairro"
                 containerProps={{ style: { gridArea: "neighborhood" } }}
                 error={errors.neighborhood}
                 {...register("neighborhood")}
               />
+
               <TextInput
                 placeholder="Cidade"
                 containerProps={{ style: { gridArea: "city" } }}
                 error={errors.city}
                 {...register("city")}
               />
+
               <TextInput
                 placeholder="UF"
+                maxLength={2}
                 containerProps={{ style: { gridArea: "state" } }}
                 error={errors.state}
                 {...register("state")}
@@ -180,31 +189,47 @@ export function Cart() {
           <PaymentContainer>
             <PaymentHeading>
               <CurrencyDollar size={22} />
+
               <div>
                 <span>Pagamento</span>
+
                 <p>
-                  o pagamento é feito na entrega. Escolha a forma que deseja
+                  O pagamento é feito na entrega. Escolha a forma que deseja
                   pagar
                 </p>
               </div>
             </PaymentHeading>
+
             <PaymentOptions>
               <div>
-                <Radio isSelected={selectedPaymentMethod === 'credit'} {...register('paymentMethod')} value="credit">
+                <Radio
+                  isSelected={selectedPaymentMethod === "credit"}
+                  {...register("paymentMethod")}
+                  value="credit"
+                >
                   <CreditCard size={16} />
                   <span>Cartão de crédito</span>
                 </Radio>
 
-                <Radio isSelected={selectedPaymentMethod === 'debit'} {...register('paymentMethod')} value="debit">
+                <Radio
+                  isSelected={selectedPaymentMethod === "debit"}
+                  {...register("paymentMethod")}
+                  value="debit"
+                >
                   <Bank size={16} />
                   <span>Cartão de débito</span>
                 </Radio>
 
-                <Radio isSelected={selectedPaymentMethod === 'cash'} {...register('paymentMethod')} value="cash" >
+                <Radio
+                  isSelected={selectedPaymentMethod === "cash"}
+                  {...register("paymentMethod")}
+                  value="cash"
+                >
                   <Money size={16} />
                   <span>Dinheiro</span>
                 </Radio>
               </div>
+
               {errors.paymentMethod ? (
                 <PaymentErrorMessage role="alert">
                   {errors.paymentMethod.message}
@@ -217,8 +242,8 @@ export function Cart() {
 
       <InfoContainer>
         <h2>Cafés selecionados</h2>
-        <CartTotal>
 
+        <CartTotal>
           {coffeesInCart.map((coffee) => (
             <Fragment key={coffee.id}>
               <Coffee>
@@ -252,23 +277,37 @@ export function Cart() {
 
           <CartTotalInfo>
             <div>
-              <span>Total de Itens</span>
-              {new Intl.NumberFormat('pt-br', {
-                currency: 'BRL',
-                style: 'currency',
-              }).format(totalItemsPrice)}
+              <span>Total de itens</span>
+              <span>
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
+                }).format(totalItemsPrice)}
+              </span>
+            </div>
+
+            <div>
+              <span>Entrega</span>
+              <span>
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
+                }).format(shippingPrice)}
+              </span>
             </div>
 
             <div>
               <span>Total</span>
-              {new Intl.NumberFormat('pt-br', {
-                currency: 'BRL',
-                style: 'currency'
-              }).format(totalItemsPrice + shippingPrice)}
+              <span>
+                {new Intl.NumberFormat("pt-br", {
+                  currency: "BRL",
+                  style: "currency",
+                }).format(totalItemsPrice + shippingPrice)}
+              </span>
             </div>
           </CartTotalInfo>
 
-          <CheckoutButton type='submit' form="order" >
+          <CheckoutButton type="submit" form="order">
             Confirmar pedido
           </CheckoutButton>
         </CartTotal>
